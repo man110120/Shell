@@ -46,20 +46,20 @@ done
 
 #分库备份
 cd $DIR
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt portal > $DIR/portal.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt xuexi > $DIR/xuexi.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt conf_init > $DIR/conf_init.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt evaluate > $DIR/evaluate.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt hubei > $DIR/hubei.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt jiangxi > $DIR/jiangxi.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt tianjin > $DIR/tianjin.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt webapp > $DIR/webapp.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt dzsb > $DIR/dzsb.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt sundatapaas > $DIR/sundatapaas.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt sundataoa > $DIR/sundataoa.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt sundata_cloud > $DIR/sundata_cloud.sql
-/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt school_home > $DIR/school_home.sql
+/data/dbserver/mysql/bin/mysql -uroot -p${mysql_pwd}  -e "show databases;" -N  >dbName.txt
+#/bin/sed -i '/mysql/d' dbName.txt
+#/bin/sed -i '/test/d' dbName.txt
+#/bin/sed -i '/information_schema/d' dbName.txt
 
+for i in mysql infomation_schema performance_schema
+do
+ /bin/sed -i "/$i/d" dbName.txt
+done
+
+for a in `cat dbName.txt`
+do
+/data/dbserver/mysql/bin/mysqldump -uroot -p${mysql_pwd} --opt $a > $DIR/$a.sql
+done
 #将portal.sql打包成portal.tar.gz，将其它打包成other.tar.gz。打包完成后，删除所有.sql文件
 /bin/tar -czf portal.tar.gz portal.sql
 /bin/tar -czf other.tar.gz --exclude=portal.sql *.sql
