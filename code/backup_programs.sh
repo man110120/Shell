@@ -1,5 +1,5 @@
 #!/bin/bash
-DATENOW=$(date +%Y-%m-%d-%H-%M-%S);
+DATENOW=$(date +%Y-%m-%d-%H-%M-%S)
 DIR_school_zhanqun=/data/Programs_school/$DATENOW
 DIR_portal_v2=/data/Programs_portal_v2/$DATENOW
 DIR_portal_v2_jigou=/data/Programs_portal_v2_jigou/$DATENOW
@@ -7,62 +7,44 @@ DIR_szyt=/data/Programs_szyt/$DATENOW
 DIR_portal_v3_space=/data/Programs_portal_v3_space/$DATENOW
 DIR_portal_v3_ziyuan=/data/Programs_portal_v3_ziyuan/$DATENOW
 #backup school station group
-if [ -d $DIR_school_zhanqun ];then
-    echo "find ok!"
-else
+if [ ! -d $DIR_school_zhanqun ];then
     mkdir $DIR_school_zhanqun
-    echo "create ok!"
 fi
 cd /data/www
 #exclude  uploadfile
 tar -zcvf $DIR_school_zhanqun/Programs_school_$DATENOW.tar.gz --exclude=uploadfile edudhfx edugjzx eduhtxx edujgyey edulqxx edulyxx edumsxx edumsyey edusyyey edutdxx edutdzx edutxxx eduwgyxx eduygxx eduygzx wgyxy ytjy ytjyj ytyey zsjnxy
 
 #backup portal_v2
-if [ -d $DIR_portal_v2 ];then
-    echo "find ok!"
-else
+if [ ! -d $DIR_portal_v2 ];then
     mkdir $DIR_portal_v2
-    echo "create ok!"
 fi
 cd /data/www/
 tar -zcvf $DIR_portal_v2/Programs_portal_v2_$DATENOW.tar.gz --exclude=uploads --exclude=uploads.default --exclude=uploads.default1 portal_v2
 
 #backup portal_v2_jigou
-if [ -d $DIR_portal_v2_jigou ];then
-    echo "find ok!"
-else
+if [ ! -d $DIR_portal_v2_jigou ];then
     mkdir $DIR_portal_v2_jigou
-    echo "create ok!"
 fi
 cd /data/www
 tar -zcvf $DIR_portal_v2_jigou/Programs_portal_v2_jigou_$DATENOW.tar.gz --exclude=Runtime portal_v2_jigou
 
 #backup szyt
-if [ -d $DIR_szyt ];then
-    echo "find ok!"
-else
+if [ ! -d $DIR_szyt ];then
     mkdir $DIR_szyt
-    echo "create ok!"
 fi
 cd /data/www
 tar -zcvf $DIR_szyt/Programs_szyt_$DATENOW.tar.gz --exclude=Runtime --exclude=uploads szyt
 
 #backup portal_v3_space
-if [ -d $DIR_portal_v3_space ];then
-    echo "find ok!"
-else
+if [ ! -d $DIR_portal_v3_space ];then
     mkdir $DIR_portal_v3_space
-    echo "create ok!"
 fi
 cd /data/www/v3
 tar -zcvf $DIR_portal_v3_space/Programs_portal_v3_space_$DATENOW.tar.gz --exclude=Runtime --exclude=uploads portal_v3_space
 
 #backup portal_v3_ziyuan
-if [ -d $DIR_portal_v3_ziyuan ];then
-    echo "find ok!"
-else
+if [ ! -d $DIR_portal_v3_ziyuan ];then
     mkdir $DIR_portal_v3_ziyuan
-    echo "create ok!"
 fi
 cd /data/www/v3
 tar -zcvf $DIR_portal_v3_ziyuan/Programs_portal_v3_ziyuan_$DATENOW.tar.gz --exclude=Runtime --exclude=uploads portal_v3_ziyuan
