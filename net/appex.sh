@@ -1,5 +1,25 @@
 #!/bin/bash
-
+#特征: 0.   Only for Linux.
+#         -----
+#         *.从根本原因上解决断流问题.(加速模块开启后验证状态造成的,掌声在哪里?)
+#         *.断流的根本原因是没有完全破解验证机制,延迟启动是一个解决办法.现在已经完全解决了这个问题.
+#         *.锐速启动脚本不规范,修正 Debian/Ubuntu 不能正常自启动.
+#         -----
+#         1.支持自动检测公网网卡,多个网卡也能区分.(非正常网卡名字会提示自行输入)
+#         2.支持自动匹配内核(也可强制安装指定内核版本的锐速,需锐速支持).
+#         3.添加询问是否开启accppp功能.(实测并开启后没有效果.)
+#         4.默认设置为G口宽带.(听说设置大点可以提高速度)
+#         5.支持一键完全卸载(此脚本安装的无残留).
+#         6.所需文件均来自GiuHub,不放心可自行查阅.(完全公开,可查看每次更改记录,适合新手学习)
+#         7.不支持自动更换内核,请自行更换.(网上教程非常多)
+#         8.不支持 OpenVZ,不需要尝试,会告诉你找不到网卡.
+#         9.吐槽: CentOS 居然连 which 都要自己安装,心好累.脚本将就着看吧.从解决断流原因看打开accppp参数还是有点作用的.
+#         -----
+#         ##.除此脚本外,所有内容均来自互联网.本人不负任何法律责任,仅供学习使用.
+#         #1.安装文件appex.zip 为 lotServer的, 增加了一些 lotServer 加速模块。(感谢 @lotServer 提供安装文件.)
+#         #2.使用前请日常 update; 欢迎反馈bug.
+#         #3.关于配置,请查看附件,根据手册调教,效果更好.
+#         #4.确认锐速支持的情况下,如果不能成功安装,请贴出 error log , uname -a 以及 ifconfig 方便我为您适配脚本.(别忘了给IPv4,IPv6打码)
 function Welcome()
 {
 clear
@@ -45,7 +65,7 @@ yum >/dev/null 2>&1
 KNB=$(getconf LONG_BIT)
 ifconfig >/dev/null 2>&1
 [ $? -gt '1' ] && echo -ne "I can not run 'ifconfig' successfully! \nPlease check your system, and try again! \n\n" && exit 1;
-Eth=$(ifconfig |grep -B1 "$(wget -qO- ipv4.icanhazip.com)" |awk -F '[: ]' '/eth/{ print $1 }') 
+Eth=$(ifconfig |grep -B1 "$(wget -qO- ipv4.icanhazip.com)" |awk -F '[: ]' '/eth/{ print $1 }')
 [ -n "$Eth" ] && NumEth=$(ifconfig |awk -F '[: ]' '/eth/{ print $1 }' |sed -n '$=')
 [ -z "$Eth" ] && echo -ne "It is seem that you server not as usually. \nPlease input your public Ethernet: " && read tmpEth;
 tmpEth=$(echo "$tmpEth"|sed 's/[ \t]*//g') && [ -n "$tmpEth" ] && [ -z $(echo "$tmpEth" |grep -E -i "venet") ] && [[ -n $(ifconfig |grep -E "$tmpEth") ]] && Eth="$tmpEth";
@@ -137,5 +157,3 @@ sed -i "s/^apxexe\=.*/apxexe\=\"\/appex\/bin\/$APXEXE\"/" /root/appex/apxfiles/e
 [ $# == '1' ] && [ "$1" == 'unstall' ] && Welcome && pause && Unstall;
 [ $# == '2' ] && [ "$1" == 'install' ] && KNK="$2" && Install;
 echo -ne "Usage:\n     bash $0 [install |unstall |install '{lotServer of Kernel Version}']\n"
-
-
