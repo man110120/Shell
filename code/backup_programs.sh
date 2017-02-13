@@ -50,9 +50,11 @@ cd /data/www/v3
 tar -zcvf $DIR_portal_v3_ziyuan/Programs_portal_v3_ziyuan_$DATENOW.tar.gz --exclude=Runtime --exclude=uploads portal_v3_ziyuan
 
 #Deleted more than 30 days
-find /data/Programs_school -mtime +30 -name "*.*" -exec rm -rf {} \;
-find /data/Programs_portal_v2 -mtime +30 -name "*.*" -exec rm -rf {} \;
-find /data/Programs_portal_v2_jigou -mtime +30 -name "*.*" -exec rm -rf {} \;
-find /data/Programs_szyt -mtime +30 -name "*.*" -exec rm -rf {} \;
-find /data/Programs_portal_v3_space -mtime +30 -name "*.*" -exec rm -rf {} \;
+rm -rf $(find /data/Programs_school -mtime +30 -name "*" -type d)
+rm -rf $(find /data/Programs_portal_v2 -mtime +30 -name "*" -type d)
+#find /data/Programs_school -mtime +30 -name "*.*" -exec rm -rf {} \;
+#find /data/Programs_portal_v2 -mtime +30 -name "*.*" -exec rm -rf {} \;
+#find /data/Programs_portal_v2_jigou -mtime +30 -name "*.*" -exec rm -rf {} \;
+#find /data/Programs_szyt -mtime +30 -name "*.*" -exec rm -rf {} \;
+#find /data/Programs_portal_v3_space -mtime +30 -name "*.*" -exec rm -rf {} \;
 find /data/Programs_portal_v3_ziyuan -mtime +30 -name "*.*" -exec rm -rf {} \;
